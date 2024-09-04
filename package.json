@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "start": "npx vite public/",
+    "build": "npm i && cd ./public && npm i && npx vite build && cp -r ./dist ../build && rm -r ./dist && cd .."
+  },
+  "dependencies": {
+    "vite": "^5.4.3"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "start": "cd .. && npm start"
+  },
+  "dependencies": {
+    "three": "^0.168.0"
+  }
+}
