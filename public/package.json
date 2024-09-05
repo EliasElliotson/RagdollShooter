@@ -4,6 +4,7 @@
     "start": "cd .. && npm start"
   },
   "dependencies": {
+    "cannon-es": "^0.20.0",
     "three": "^0.168.0"
   }
 }
