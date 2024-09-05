@@ -8,9 +8,7 @@ import { PointerLockControls } from 'three/addons/controls/PointerLockControls.j
 
 function rotationBody(body) {
     body.setRotation = function (vec) {
-        this.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), vec.x);
-        this.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), vec.y);
-        this.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 0, 1), vec.z);
+        this.quaternion.setFromEuler(vec.x, vec.y, vec.z)
     }.bind(body);
 
     return body;
@@ -74,7 +72,7 @@ const shape1 = new CANNON.Box(new CANNON.Vec3(0.5, 0.5, 0.5))
 const boxBody1 = rotationBody(new CANNON.Body({ mass: 1 }))
 boxBody1.addShape(shape1)
 boxBody1.position.set(0, 2, 0)
-boxBody1.setRotation(new CANNON.Vec3(0, 0.5, 1))
+boxBody1.setRotation(new CANNON.Vec3(Math.PI / 4, Math.PI / 4, 0))
 boxBody1.updateMassProperties()
 world.addBody(boxBody1)
 
