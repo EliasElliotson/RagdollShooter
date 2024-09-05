@@ -3,19 +3,6 @@ import * as CANNON from 'cannon-es'
 import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 
 /****************************************************************************************************************************************************
- * UTILITY STUFF
- ***************************************************************************************************************************************************/
-
-function rotationBody(body) {
-    body.setRotation = function (vec) {
-        this.quaternion.setFromEuler(vec.x, vec.y, vec.z)
-    }.bind(body);
-
-    return body;
-}
-
-
-/****************************************.************************************************************************************************************
  * RENDERER STUFF
  ***************************************************************************************************************************************************/
 
@@ -69,17 +56,17 @@ const world = new CANNON.World({
 
 // Initialize the box
 const shape1 = new CANNON.Box(new CANNON.Vec3(0.5, 0.5, 0.5))
-const boxBody1 = rotationBody(new CANNON.Body({ mass: 1 }))
+const boxBody1 = new CANNON.Body({ mass: 1 })
 boxBody1.addShape(shape1)
 boxBody1.position.set(0, 2, 0)
-boxBody1.setRotation(new CANNON.Vec3(Math.PI / 4, Math.PI / 4, 0))
+boxBody1.quaternion.setFromEuler(Math.PI / 4, Math.PI / 4, 0)
 boxBody1.updateMassProperties()
 world.addBody(boxBody1)
 
 // Add the floor
 const planeShape = new CANNON.Plane()
 const planeBody = new CANNON.Body({ mass: 0, shape: planeShape })
-planeBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0) // make it face up
+planeBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0)
 planeBody.position.set(0, -2, 0);
 planeBody.updateMassProperties()
 world.addBody(planeBody)
