@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import * as CANNON from 'cannon-es'
+import { Limb } from './js/Limb';
 import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 
 /****************************************************************************************************************************************************
@@ -13,12 +14,6 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setAnimationLoop(animate);
 document.body.appendChild(renderer.domElement);
-
-// Rotating cube
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
 
 // Plane floor
 const planeGeometry = new THREE.PlaneGeometry(7, 7);
@@ -54,15 +49,6 @@ const world = new CANNON.World({
     gravity: new CANNON.Vec3(0, -10, 0)
 });
 
-// Initialize the box
-const shape1 = new CANNON.Box(new CANNON.Vec3(0.5, 0.5, 0.5))
-const boxBody1 = new CANNON.Body({ mass: 1 })
-boxBody1.addShape(shape1)
-boxBody1.position.set(0, 2, 0)
-boxBody1.quaternion.setFromEuler(Math.PI / 4, Math.PI / 4, 0)
-boxBody1.updateMassProperties()
-world.addBody(boxBody1)
-
 // Add the floor
 const planeShape = new CANNON.Plane()
 const planeBody = new CANNON.Body({ mass: 0, shape: planeShape })
@@ -70,6 +56,28 @@ planeBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0)
 planeBody.position.set(0, -2, 0);
 planeBody.updateMassProperties()
 world.addBody(planeBody)
+
+// Ragdoll limb
+const limb = new Limb([
+    {
+        type: "segment",
+        radius: 0.1,
+        length: 0.5
+    },
+    {
+        type: "segment",
+        radius: 0.1,
+        length: 0.5
+    },
+    {
+        type: "segment",
+        radius: 0.1,
+        length: 0.5
+    }
+]);
+
+limb.addBodies(world);
+limb.addMeshes(scene)
 
 
 /****************************************************************************************************************************************************
@@ -79,8 +87,7 @@ world.addBody(planeBody)
 function animate() {
     world.fixedStep();
 
-    cube.position.copy(boxBody1.position);
-    cube.quaternion.copy(boxBody1.quaternion);
+    limb.updateMesh();
 
 
     renderer.render(scene, camera);
