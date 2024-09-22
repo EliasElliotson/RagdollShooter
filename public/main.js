@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import * as CANNON from 'cannon-es'
 import { Limb } from './js/Limb';
 import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
+import CannonDebugger from 'cannon-es-debugger'
 
 /****************************************************************************************************************************************************
  * RENDERER STUFF
@@ -65,9 +66,8 @@ const limb = new Limb([
         length: 0.5
     },
     {
-        type: "segment",
-        radius: 0.1,
-        length: 0.5
+        type: "joint",
+        radius: 0.1
     },
     {
         type: "segment",
@@ -84,11 +84,15 @@ limb.addMeshes(scene)
  * RUNNER STUFF
  ***************************************************************************************************************************************************/
 
+const cannonDebugger = new CannonDebugger(scene, world)
+
+let i = 0;
+
 function animate() {
     world.fixedStep();
 
     limb.updateMesh();
-
+    //cannonDebugger.update()
 
     renderer.render(scene, camera);
 }
