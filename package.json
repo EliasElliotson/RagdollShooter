@@ -5,6 +5,6 @@
     "build": "npm i && cd ./public && npm i && cp ../vite.config.js ./vite.config.js && npx vite build && cp -r ./dist ../build && rm -r ./dist && rm ./vite.config.js && cd .."
   },
   "dependencies": {
-    "vite": "^5.4.3"
+    "vite": "^5.4.6"
   }
 }
